@@ -8,9 +8,7 @@ from torch.utils.data.sampler import SubsetRandomSampler
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
-import shutil
 import os
-
 
 def calc_distribution():
     train_data = torchvision.datasets.CIFAR10('./data', train=True, download=True)
@@ -20,15 +18,6 @@ def calc_distribution():
     train_mean = np.mean(x, axis=(0, 1))
     train_std = np.std(x, axis=(0, 1))
     print(train_mean / 255, train_std / 255)
-
-
-def save_checkpoint(state, is_best, checkpoint_dir, best_model_dir):
-    f_path = checkpoint_dir / 'checkpoint.pth'
-    torch.save(state, f_path)
-    if is_best:
-        best_fpath = best_model_dir / 'best_model.pth'
-        shutil.copyfile(f_path, best_fpath)
-
 
 def plot_losses(train_losses, valid_losses, dropout, num_epochs, batch_size):
     '''
