@@ -64,3 +64,7 @@ dropout =0.2,epoch = 30,batch_size = 12811:20:41 --- Epoch: 1	Train loss: 1.4561
 11:43:09 --- Epoch: 20	Train loss: 0.9813	Valid loss: 0.2092	Train accuracy(%): 56.86	Valid accuracy(%): 63.57
 11:44:40 --- Epoch: 21	Train loss: 0.9735	Valid loss: 0.2078	Train accuracy(%): 56.99	Valid accuracy(%): 63.12
 11:46:06 --- Epoch: 22	Train loss: 0.9655	Valid loss: 0.2080	Train accuracy(%): 57.58	Valid accuracy(%): 63.51
+11:47:29 --- Epoch: 23	Train loss: 0.9641	Valid loss: 0.2062	Train accuracy(%): 57.46	Valid accuracy(%): 64.01
+11:48:55 --- Epoch: 24	Train loss: 0.9590	Valid loss: 0.2077	Train accuracy(%): 57.66	Valid accuracy(%): 64.03
+11:50:21 --- Epoch: 25	Train loss: 0.9590	Valid loss: 0.2048	Train accuracy(%): 57.75	Valid accuracy(%): 64.01
+11:51:54 --- Epoch: 26	Train loss: 0.9509	Valid loss: 0.2032	Train accuracy(%): 58.22	Valid accuracy(%): 64.45
