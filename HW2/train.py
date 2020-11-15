@@ -246,7 +246,9 @@ if __name__ == '__main__':
 
     learning_rate = 0.001
 
-    transform_train = transforms.Compose([transforms.ToTensor(),
+    transform_train = transforms.Compose([transforms.ColorJitter(brightness=0.1, contrast=0.1, saturation= 0.1),
+                                          transforms.RandomAffine(10, shear=10, scale=(0.9,1.1)),
+                                          transforms.ToTensor(),
                                           transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2470, 0.2435, 0.2616))
                                           ])
 
