@@ -144,7 +144,7 @@ class CNN(nn.Module):
         out = self.layer(x)
         out = out.view(batch_size, -1)
         out = self.fc_layer1(out)
-        label = self.fc_layer2(out)
+        label = self.threshold(out)
         return out,label
 
 
@@ -259,5 +259,5 @@ with torch.no_grad():
         total2 += label2.size(0)
         correct1 += (output1_index == y1_).sum().float()
         correct2 += (output2_index == y2_).sum().float()
-    print("model 1 Accuracy of Test Data: {}%".format(100.0 * correct1 / total1))
-    print("model 2 Accuracy of Test Data: {}%".format(100.0 * correct2 / total2))
+    print("model 2 Accuracy of Test Data: {}%".format(100.0 * correct1 / total1))
+    print("model 1 Accuracy of Test Data: {}%".format(100.0 * correct2 / total2))
