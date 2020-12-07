@@ -24,6 +24,8 @@ import numpy as np
 
 import time
 
+student_id = '20181485'
+
 
 def calc_distribution(dataset):
     x = np.concatenate([np.asarray(dataset[i][0]) for i in range(len(dataset))])
@@ -76,7 +78,7 @@ class TypeData(Dataset):
         elif self.datatype == 'letters':
             label = 1.
 
-        else: #digits
+        else:  # digits
             label = 0.
 
         return self.data[index][0], torch.tensor(self.data[index][1]), torch.tensor(label)
@@ -106,6 +108,7 @@ num_epoch = 1
 
 train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True, drop_last=True)
 test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False, drop_last=True)
+
 
 class CNN(nn.Module):
     def __init__(self):
@@ -145,8 +148,7 @@ class CNN(nn.Module):
         out = out.view(batch_size, -1)
         out = self.fc_layer1(out)
         label = self.threshold(out)
-        return out,label
-
+        return out, label
 
 
 class d_CNN(nn.Module):
@@ -214,6 +216,7 @@ class l_CNN(nn.Module):
         out = self.fc_layer(out)
         return out
 
+
 start = time.time()
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -228,31 +231,38 @@ for i in range(1, num_epoch + 1):
         y2_ = label2.to(device=device, dtype=torch.int64)
 
         optimizer.zero_grad()
-        output,label = model.forward(x)
+        output, label = model.forward(x)
         loss1 = (loss_func(output, y1_))
         loss1.backward(retain_graph=True)
         loss2 = (loss_func(label, y2_))
         loss2.backward()
         optimizer.step()
-        if n%512==0:
+        if n % 512 == 0:
             # scheduler.step(loss1)
             scheduler.step(loss2)
             print('batch_num: {}, Loss: {}, LR: {}'.format(n, loss1.item(), scheduler.optimizer.state_dict()[
-            'param_groups'][0]['lr']))
-
+                'param_groups'][0]['lr']))
+torch.save(model.state_dict(), './Train_Results/' + '_' + student_id + '.pth')
 print(time.time() - start)
+
+
+test_model = CNN().to(device)
+checkpoint = torch.load('./Train_Results/' + '_' + student_id + '.pth', map_location=device)
+test_model.load_state_dict(checkpoint)
+
+
 
 correct1 = 0
 correct2 = 0
 total1 = 0
 total2 = 0
-model.eval()
+test_model.eval()
 with torch.no_grad():
     for image, label1, label2 in test_loader:
         x = image.to(device)
         y1_ = label1.to(device)
         y2_ = label2.to(device)
-        output1,output2 = model.forward(x)
+        output1, output2 = test_model.forward(x)
         _, output1_index = torch.max(output1, 1)
         _, output2_index = torch.max(output2, 1)
         total1 += label1.size(0)
